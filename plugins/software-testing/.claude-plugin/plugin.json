@@ -1,0 +1,12 @@
+{
+  "name": "software-testing",
+  "version": "0.1.0",
+  "description": "任意の言語・フレームワークで自動テストを決定論的に設計・実装・改善するスキル (software-testing) を提供する。",
+  "author": {
+    "name": "MiuraToya",
+    "email": "dengzais8@gmail.com",
+    "url": "https://github.com/MiuraToya"
+  },
+  "homepage": "https://github.com/MiuraToya/claude-plugin",
+  "license": "MIT"
+}

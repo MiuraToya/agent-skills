@@ -1,0 +1,18 @@
+{
+  "name": "miura-claude-plugins",
+  "description": "MiuraToya による Claude Code プラグイン集",
+  "owner": {
+    "name": "MiuraToya",
+    "email": "dengzais8@gmail.com",
+    "url": "https://github.com/MiuraToya"
+  },
+  "plugins": [
+    {
+      "name": "software-testing",
+      "description": "任意の言語・フレームワークで自動テストを決定論的に設計・実装・改善するスキルを提供するプラグイン。",
+      "category": "testing",
+      "source": "./plugins/software-testing",
+      "homepage": "https://github.com/MiuraToya/claude-plugin"
+    }
+  ]
+}
