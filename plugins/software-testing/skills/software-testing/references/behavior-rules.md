@@ -42,3 +42,46 @@ Test <condition> -> raises <error_type>
   Act: invoke public API
   Assert: verify error type and message/metadata contract
 ```
+
+## 7. ドキュメンテーション規則
+
+### 7.1 検証内容と期待結果を docstring / コメントで明示する
+
+各テストの先頭に、検証する振る舞いと期待結果が一読で伝わる短い説明を付ける。
+テスト名と本文だけでは意図が読み取れないケースを避け、レビュアーが目的を素早く把握できる状態を保つ。
+
+```text
+def test_<condition>_<expected_behavior>():
+    """<検証する振る舞い>のとき、<期待結果>であることを確認する。"""
+    ...
+```
+
+冗長な説明や実装手順の繰り返しは書かない。
+
+### 7.2 Arrange / Act / Assert をコメントで区切る
+
+3A の境界をコメントで明示し、テスト構造を視覚的に追えるようにする。
+
+```text
+def test_xxx():
+    # Arrange
+    <preconditions and test data>
+
+    # Act
+    <invoke public API>
+
+    # Assert
+    <verify observable result>
+```
+
+セクションが空になる場合は省略可。ただし Act と Assert は必ず明示する。
+
+### 7.3 ユビキタス言語を使う
+
+テストコード内の変数名・関数名・コメント・docstring では、プロダクションコードや設計書で使われている用語をそのまま使う。
+独自略語・独自パラフレーズ・テストコード固有の造語は避ける。
+
+- 避ける: `usr`, `cust`, `tmp_record`
+- 使う: `user`, `customer`, `pending_order`
+
+ドメイン用語の不一致は、レビュー時の認知負荷とリファクタリング時の不整合の主因になる。

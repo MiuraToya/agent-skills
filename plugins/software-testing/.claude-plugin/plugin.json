@@ -1,6 +1,6 @@
 {
   "name": "software-testing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "任意の言語・フレームワークで自動テストを決定論的に設計・実装・改善するスキル (software-testing) を提供する。",
   "author": {
     "name": "MiuraToya",
