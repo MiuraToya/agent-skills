@@ -1,0 +1,12 @@
+{
+  "name": "pr-review-response",
+  "version": "0.1.0",
+  "description": "GitHub の PR レビューコメントへ体系的に対応するワークフロー (取得 → 方針合意 → コミット → 返信) を提供するスキルプラグイン。",
+  "author": {
+    "name": "MiuraToya",
+    "email": "dengzais8@gmail.com",
+    "url": "https://github.com/MiuraToya"
+  },
+  "homepage": "https://github.com/MiuraToya/claude-plugin",
+  "license": "MIT"
+}

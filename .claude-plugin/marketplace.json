@@ -13,6 +13,13 @@
       "category": "testing",
       "source": "./plugins/software-testing",
       "homepage": "https://github.com/MiuraToya/claude-plugin"
+    },
+    {
+      "name": "pr-review-response",
+      "description": "GitHub の PR レビューコメントへ体系的に対応するワークフロー (取得 → 方針合意 → コミット → 返信) を提供するプラグイン。",
+      "category": "workflow",
+      "source": "./plugins/pr-review-response",
+      "homepage": "https://github.com/MiuraToya/claude-plugin"
     }
   ]
 }
