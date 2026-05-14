@@ -70,8 +70,13 @@ import pytest
         pytest.param("", "", marks=pytest.mark.xfail(reason="仕様検討中")),
     ],
 )
-def test_normalize(raw, expected):
-    assert normalize(raw) == expected
+def test_normalize_returns_lowercased_trimmed_value(raw, expected):
+    """raw 文字列を渡したとき、小文字化かつトリム済みの値が返ることを確認する。"""
+    # Act
+    result = normalize(raw)
+
+    # Assert
+    assert result == expected
 ```
 
 <a id="runtime-python-pytest-assertion"></a>
@@ -85,7 +90,9 @@ def test_normalize(raw, expected):
 import pytest
 
 
-def test_divide_by_zero_raises():
+def test_divide_by_zero_raises_zero_division_error():
+    """0 で除算したとき、ZeroDivisionError が "division" を含むメッセージで送出されることを確認する。"""
+    # Act / Assert
     with pytest.raises(ZeroDivisionError, match="division"):
         divide(1, 0)
 ```
@@ -97,10 +104,16 @@ def test_divide_by_zero_raises():
 - 新規コードで `tmpdir` は使わない。
 
 ```python
-def test_write_report(tmp_path):
-    p = tmp_path / "report.txt"
-    p.write_text("ok", encoding="utf-8")
-    assert p.read_text(encoding="utf-8") == "ok"
+def test_write_report_persists_text_to_file(tmp_path):
+    """テキストを書き込んだレポートファイルから、同じテキストを読み戻せることを確認する。"""
+    # Arrange
+    report_path = tmp_path / "report.txt"
+
+    # Act
+    report_path.write_text("ok", encoding="utf-8")
+
+    # Assert
+    assert report_path.read_text(encoding="utf-8") == "ok"
 ```
 
 <a id="runtime-python-pytest-monkeypatch"></a>
@@ -114,13 +127,17 @@ def test_write_report(tmp_path):
 from unittest.mock import patch
 
 
-def test_service_calls_client_with_expected_signature():
+def test_run_service_invokes_external_client_with_given_user_id():
+    """user_id を渡したとき、ExternalClient.fetch_user が同じ user_id で1回呼ばれ、レスポンスがそのまま返ることを確認する。"""
     with patch("app.service.ExternalClient", autospec=True) as ClientMock:
+        # Arrange
         client = ClientMock.return_value
         client.fetch_user.return_value = {"id": "u1"}
 
+        # Act
         result = run_service("u1")
 
+        # Assert
         client.fetch_user.assert_called_once_with("u1")
         assert result["id"] == "u1"
 ```
@@ -134,18 +151,31 @@ class Gateway:
         ...
 
 
-def test_gateway_contract_with_spec_set():
+def test_pay_invokes_gateway_send_with_user_id_and_amount():
+    """user_id と amount を渡したとき、Gateway.send が同じ引数で1回呼ばれ True が返ることを確認する。"""
+    # Arrange
     gateway = create_autospec(Gateway, instance=True, spec_set=True)
     gateway.send.return_value = True
 
-    assert pay(gateway, "u1", 100) is True
+    # Act
+    result = pay(gateway, "u1", 100)
+
+    # Assert
+    assert result is True
     gateway.send.assert_called_once_with("u1", 100)
 ```
 
 ```python
-def test_uses_env_token(monkeypatch):
+def test_load_token_returns_value_from_api_token_env(monkeypatch):
+    """環境変数 API_TOKEN が設定されているとき、load_token がその値を返すことを確認する。"""
+    # Arrange
     monkeypatch.setenv("API_TOKEN", "test-token")
-    assert load_token() == "test-token"
+
+    # Act
+    token = load_token()
+
+    # Assert
+    assert token == "test-token"
 ```
 
 <a id="runtime-python-pytest-integration"></a>
@@ -170,11 +200,17 @@ def mysql_dsn():
     return os.environ["TEST_MYSQL_DSN"]
 
 
-def test_user_repository_with_real_mysql(mysql_dsn):
+def test_user_repository_persists_user_into_real_mysql(mysql_dsn):
+    """実 MySQL に user を INSERT したとき、同じ id で SELECT すると同じ name が取り出せることを確認する。"""
+    # Arrange
     engine = create_engine(mysql_dsn)
+
+    # Act
     with engine.begin() as conn:
         conn.execute(text("INSERT INTO users(id, name) VALUES (1, 'alice')"))
         row = conn.execute(text("SELECT name FROM users WHERE id = 1")).first()
+
+    # Assert
     assert row[0] == "alice"
 ```
 
@@ -184,14 +220,20 @@ from moto import mock_aws
 
 
 @mock_aws
-def test_s3_upload_with_moto():
+def test_s3_put_object_returns_same_body_on_get_object():
+    """S3 に put_object したオブジェクトを同じ Key で get_object したとき、書き込んだ Body がそのまま返ることを確認する。"""
+    # Arrange
     s3 = boto3.client("s3", region_name="ap-northeast-1")
     s3.create_bucket(
         Bucket="test-bucket",
         CreateBucketConfiguration={"LocationConstraint": "ap-northeast-1"},
     )
+
+    # Act
     s3.put_object(Bucket="test-bucket", Key="a.txt", Body=b"hello")
     obj = s3.get_object(Bucket="test-bucket", Key="a.txt")
+
+    # Assert
     assert obj["Body"].read() == b"hello"
 ```
 
