@@ -1,0 +1,12 @@
+{
+  "name": "task-manager",
+  "version": "0.2.0",
+  "description": "タスク管理ツール (現状: Jira / Confluence) を Claude Code から扱うためのスキルプラグイン。Jira の自分担当タスクの一覧・詳細取得と、Confluence ページの参照を提供する。",
+  "author": {
+    "name": "MiuraToya",
+    "email": "dengzais8@gmail.com",
+    "url": "https://github.com/MiuraToya"
+  },
+  "homepage": "https://github.com/MiuraToya/claude-plugin",
+  "license": "MIT"
+}
