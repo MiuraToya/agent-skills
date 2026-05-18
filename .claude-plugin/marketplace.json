@@ -20,6 +20,13 @@
       "category": "workflow",
       "source": "./plugins/pr-review-response",
       "homepage": "https://github.com/MiuraToya/claude-plugin"
+    },
+    {
+      "name": "task-manager",
+      "description": "タスク管理ツール (現状: Jira / Confluence) を Claude Code から扱うためのスキルプラグイン。Jira の自分担当タスクの一覧・詳細取得と、Confluence ページの参照を提供する。",
+      "category": "workflow",
+      "source": "./plugins/task-manager",
+      "homepage": "https://github.com/MiuraToya/claude-plugin"
     }
   ]
 }
