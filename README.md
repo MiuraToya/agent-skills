@@ -1,4 +1,4 @@
-# claude-plugin
+# agent-skills
 
 Claude 用のプラグインを配布するマーケットプレイスです。
 
